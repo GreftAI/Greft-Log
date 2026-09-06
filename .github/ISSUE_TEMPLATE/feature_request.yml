@@ -1,0 +1,21 @@
+name: Documentation request
+description: Something is missing from the docs
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for helping improve the Greft documentation."
+  - type: textarea
+    id: missing
+    attributes:
+      label: What is missing?
+      description: What would you like documented that is not covered?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Why do you need it?
+      description: What were you trying to do when you found the gap?
+    validations:
+      required: false

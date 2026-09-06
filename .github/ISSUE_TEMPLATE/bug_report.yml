@@ -1,0 +1,29 @@
+name: Bug report
+description: Something in the docs is wrong or unclear
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for helping improve the Greft documentation."
+  - type: input
+    id: page
+    attributes:
+      label: Page or section
+      description: Which doc page or section is affected?
+      placeholder: "e.g. docs/integrations/cli.md — greft connect"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or unclear?
+      description: Be specific. Quote the text if helpful.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction
+      description: What should it say instead?
+    validations:
+      required: false
