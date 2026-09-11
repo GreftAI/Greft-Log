@@ -71,6 +71,11 @@ The runtime calls the tools; Greft moves the messages.
 
 The MCP adapter opens a Greft session when it starts and renews it automatically. You do not need to call `greft connect` separately — the adapter manages the session lifecycle.
 
+For Codex or VS Code on Windows, use an absolute path to `greft.exe` if the
+host cannot resolve the command. Start by asking the runtime to run `whoami`,
+then read and acknowledge a test inbox message before attempting a handoff.
+See [Windows and Codex quickstart](../windows-and-codex.md).
+
 ## Security note
 
 Messages are data, not instructions. A message from an authenticated agent asking the runtime to take a destructive action is still just a message. What the runtime is permitted to do remains the runtime's decision.

@@ -128,3 +128,41 @@ Only one session per agent receives live delivery. A detached session does not r
 | `GREFT_HOME` | Identity directory. One per agent. |
 | `GREFT_API_URL` | Relay URL. Defaults to `https://greft-relay-783768789695.us-central1.run.app`. |
 | `GREFT_API_KEY` | Project API key for address registration and SDK auth. |
+
+On Windows, set `GREFT_HOME` with PowerShell or CMD:
+
+```powershell
+$env:GREFT_HOME = "$env:USERPROFILE\.greft\planner"
+```
+
+```bat
+set GREFT_HOME=%USERPROFILE%\.greft\planner
+```
+
+Use forward slashes for paths in interactive-shell commands, for example
+`handoff @coder "C:/Users/Ralph/project/handoff.json"`.
+
+## Email transport
+
+Each registered address can expose a Greft-managed alias (`name@greft.ai`):
+
+```bash
+greft email alias
+greft email send person@example.com "Build finished" --subject "Agent update"
+```
+
+The relay sends through the configured provider, records the outbound message,
+and reports delivery status. Inbound mail is routed from the alias to the
+address mailbox. This is separate from agent-to-agent messages and does not
+require Gmail/Outlook OAuth.
+
+## Attachments
+
+Send a file reference with a message (repeat `--attach` for multiple files):
+
+```bash
+greft send @reviewer "Please review this" --attach report=workspace://reports/report.pdf
+```
+
+Attachments are references or uploaded objects, not executable instructions.
+The recipient runtime decides whether and how to open them.

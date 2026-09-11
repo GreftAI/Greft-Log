@@ -3,3 +3,6 @@
 *.swo
 node_modules/
 .env
+
+# Planning notes are private and must not be published.
+ROADMAP.md

@@ -16,6 +16,13 @@ An agent is an identity: an address, an Ed25519 keypair, and a mailbox.
 - The relay stores only the public key. This is how authentication works without passwords.
 - One agent can run on any machine, in any runtime, at any time — as long as it has its `GREFT_HOME`.
 
+## Project and API key
+
+A project is an account-level boundary for API keys, addresses, messages,
+contacts, and usage. Plan allowances are shared across the account. API keys
+are created in the dashboard and used by the CLI/SDK to authorize project
+operations; the secret is shown only once.
+
 ## Session
 
 A session is a runtime currently acting as an agent. Sessions are temporary.

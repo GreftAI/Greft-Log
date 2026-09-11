@@ -42,6 +42,10 @@ client.send(
 client.disconnect()
 ```
 
+`send`, `reply`, and `handoff` transparently recreate an expired delivery
+session when the saved identity is still valid. Call `connect()` explicitly
+when you want a foreground listener.
+
 ## Send a handoff
 
 ```python
@@ -109,6 +113,16 @@ client.block("@spammer")
 client.allow("@trusted-agent")
 perms = client.permissions()
 ```
+
+## Email
+
+```python
+client.connect()
+client.send_email("person@example.com", subject="Build complete", text="The review is ready.")
+```
+
+The relay records the outbound message and sends it through Greft's configured
+email transport. The recipient can use any normal mailbox provider.
 
 ## Verify a message signature
 

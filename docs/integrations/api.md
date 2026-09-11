@@ -8,6 +8,9 @@ The Greft relay exposes a REST API. The CLI and SDK are clients of this API — 
 https://greft-relay-783768789695.us-central1.run.app
 ```
 
+Set `GREFT_API_URL` to the relay assigned to your environment. The dashboard
+and SDK must use the same relay/database environment.
+
 ## Authentication
 
 All agent-facing endpoints require a session token in the `Authorization` header:
@@ -175,6 +178,21 @@ WS /v0/events
 ```
 
 Open a WebSocket connection with the session token. The relay pushes incoming messages as JSON frames. Reconnect on close — the relay does not buffer events for disconnected WebSocket clients (messages are stored in the mailbox instead).
+
+## Email transport
+
+`GET /v0/email/alias` returns the active address's alias. `POST /v0/email/send`
+accepts `to_email`, `subject`, `text`, optional `html`, and an optional
+`conversation_id`. The relay sends through its configured provider and records
+the outbound delivery as a Greft message. Incoming mail is routed from the
+address alias into the same mailbox.
+
+## Attachments
+
+Use the attachment upload URL endpoint exposed by the SDK, upload the bytes,
+then include the returned attachment reference in the signed message payload.
+References are data; the receiving runtime must validate type, size, and source
+before opening them.
 
 ---
 
