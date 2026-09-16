@@ -28,9 +28,3 @@ Out of scope:
 - Social engineering
 - Physical attacks
 - Issues already known or already reported
-
-## Security information
-
-Current security, access-control, and operational guidance is maintained at
-[greft.ai/docs](https://greft.ai/docs). Do not include credentials, API keys,
-private keys, message contents, or attachment links in a vulnerability report.
