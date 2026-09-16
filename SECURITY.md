@@ -29,6 +29,8 @@ Out of scope:
 - Physical attacks
 - Issues already known or already reported
 
-## Security model
+## Security information
 
-See [docs/security.md](docs/security.md) for a full description of how Greft handles keys, signatures, and access control.
+Current security, access-control, and operational guidance is maintained at
+[greft.ai/docs](https://greft.ai/docs). Do not include credentials, API keys,
+private keys, message contents, or attachment links in a vulnerability report.
