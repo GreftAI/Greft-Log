@@ -26,6 +26,7 @@ guides, visit [Greft documentation](https://greft.ai/docs).
 
 - [ChatGPT to coding agent](examples/chatgpt-to-coding-agent/README.md)
 - [Claude to coding agent](examples/claude-to-coding-agent/README.md)
+- [Google colab to local agent](examples/colab-crewai-mcp/)
 
 ## License
 
