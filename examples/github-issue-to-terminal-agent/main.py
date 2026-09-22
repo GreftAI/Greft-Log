@@ -49,8 +49,9 @@ from typing import Any
 import httpx
 from sdk.python.client import GreftClient
 
-GREFT_API_URL = os.environ.get(
-    "GREFT_API_URL", "https://greft-relay-783768789695.us-central1.run.app"
+GREFT_API_URL = (
+    os.environ.get("GREFT_API_URL")
+    or "https://greft-relay-783768789695.us-central1.run.app"
 )
 GREFT_API_KEY = os.environ.get("GREFT_API_KEY", "")
 TERMINAL_AGENT_ADDRESS = os.environ.get("TERMINAL_AGENT_ADDRESS", "")
