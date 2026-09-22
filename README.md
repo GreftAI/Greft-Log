@@ -29,6 +29,7 @@ guides, visit [Greft documentation](https://greft.ai/docs).
 - [Google colab to local agent](examples/colab-crewai-mcp/)
 - [Colab ↔ Deepnote notebook communication](examples/colab-deepnote-notebook-communication/README.md)
 - [Security triage across independent agents](examples/security-triage/README.md)
+- [GitHub issue to terminal agent](examples/github-issue-to-terminal-agent/README.md)
 
 ## License
 
