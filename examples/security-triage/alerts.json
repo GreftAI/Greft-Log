@@ -1,0 +1,54 @@
+{
+  "repository": "octo-org/payments-service",
+  "alerts": [
+    {
+      "id": "dependabot-4821",
+      "source": "dependabot",
+      "severity": "critical",
+      "summary": "Remote code execution in requests library via crafted redirect",
+      "package": "requests",
+      "vulnerable_version": "2.31.0",
+      "patched_version": "2.32.3",
+      "cve": "CVE-2024-35195",
+      "html_url": "https://github.com/octo-org/payments-service/security/dependabot/4821",
+      "detected_at": "2026-09-20T09:14:02Z",
+      "route_to": ["@malware-analysis", "@compliance"]
+    },
+    {
+      "id": "codeql-1187",
+      "source": "code_scanning",
+      "severity": "high",
+      "summary": "Hardcoded AWS access key committed to infra/terraform/main.tf",
+      "rule_id": "py/hardcoded-credentials",
+      "file_path": "infra/terraform/main.tf",
+      "commit_sha": "8f2a9c1",
+      "html_url": "https://github.com/octo-org/payments-service/security/code-scanning/1187",
+      "detected_at": "2026-09-20T09:16:41Z",
+      "route_to": ["@identity", "@cloud", "@compliance"]
+    },
+    {
+      "id": "secret-scan-903",
+      "source": "secret_scanning",
+      "severity": "critical",
+      "summary": "Live Stripe secret key detected in commit history",
+      "secret_type": "stripe_secret_key",
+      "commit_sha": "c41e7bb",
+      "html_url": "https://github.com/octo-org/payments-service/security/secret-scanning/903",
+      "detected_at": "2026-09-20T09:17:05Z",
+      "route_to": ["@identity", "@compliance"]
+    },
+    {
+      "id": "dependabot-4830",
+      "source": "dependabot",
+      "severity": "low",
+      "summary": "Outdated typing-extensions with no known exploit path",
+      "package": "typing-extensions",
+      "vulnerable_version": "4.9.0",
+      "patched_version": "4.12.2",
+      "cve": null,
+      "html_url": "https://github.com/octo-org/payments-service/security/dependabot/4830",
+      "detected_at": "2026-09-20T09:20:11Z",
+      "route_to": ["@compliance"]
+    }
+  ]
+}

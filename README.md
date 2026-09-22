@@ -27,6 +27,9 @@ guides, visit [Greft documentation](https://greft.ai/docs).
 - [ChatGPT to coding agent](examples/chatgpt-to-coding-agent/README.md)
 - [Claude to coding agent](examples/claude-to-coding-agent/README.md)
 - [Google colab to local agent](examples/colab-crewai-mcp/)
+- [Colab ↔ Deepnote notebook communication](examples/colab-deepnote-notebook-communication/README.md)
+- [Security triage across independent agents](examples/security-triage/README.md)
+- [GitHub issue to terminal agent](examples/github-issue-to-terminal-agent/README.md)
 
 ## License
 
