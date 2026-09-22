@@ -55,8 +55,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from agents import SPECIALISTS, SpecialistProfile, analyze
 from sdk.python.client import GreftClient
 
-API_URL = os.environ.get(
-    "GREFT_API_URL", "https://greft-relay-783768789695.us-central1.run.app"
+API_URL = (
+    os.environ.get("GREFT_API_URL")
+    or "https://greft-relay-783768789695.us-central1.run.app"
 )
 API_KEY = os.environ.get("GREFT_API_KEY", "")
 DEFAULT_ALERTS = Path(__file__).with_name("alerts.json")
