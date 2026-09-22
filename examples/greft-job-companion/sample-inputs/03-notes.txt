@@ -1,0 +1,3 @@
+Meeting notes
+
+The first version should stay small enough to understand in a few minutes.
