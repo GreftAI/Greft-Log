@@ -1,0 +1,40 @@
+name: security-triage example
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "examples/security-triage/**"
+      - ".github/workflows/security-triage.yml"
+  pull_request:
+    paths:
+      - "examples/security-triage/**"
+      - ".github/workflows/security-triage.yml"
+  workflow_dispatch: {}
+
+jobs:
+  run-example:
+    # Secrets are not exposed to workflow runs triggered by a fork's pull
+    # request, so this job only runs live for push/dispatch or PRs from
+    # branches within this repository.
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install example dependencies
+        working-directory: examples/security-triage
+        run: pip install -r requirements.txt
+
+      - name: Run security triage against the live Greft relay
+        working-directory: examples/security-triage
+        env:
+          GREFT_API_URL: ${{ secrets.GREFT_API_URL }}
+          GREFT_API_KEY: ${{ secrets.GREFT_API_KEY }}
+        run: python main.py
