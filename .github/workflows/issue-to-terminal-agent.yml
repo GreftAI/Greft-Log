@@ -1,0 +1,46 @@
+name: GitHub issue to terminal agent
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+    inputs:
+      issue_title:
+        description: "Issue title to send (manual test run)"
+        required: true
+        default: "Example: login form accepts an invalid email address"
+      issue_body:
+        description: "Issue body to send (manual test run)"
+        required: false
+        default: "Steps to reproduce: enter 'not-an-email' in the login form and submit."
+      issue_number:
+        description: "Issue number to reference (manual test run)"
+        required: false
+        default: "0"
+
+jobs:
+  send-to-terminal-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install example dependencies
+        working-directory: examples/github-issue-to-terminal-agent
+        run: pip install -r requirements.txt
+
+      - name: Summarize issue and send to the terminal agent over Greft
+        working-directory: examples/github-issue-to-terminal-agent
+        env:
+          GREFT_API_URL: ${{ secrets.GREFT_API_URL }}
+          GREFT_API_KEY: ${{ secrets.GREFT_API_KEY }}
+          TERMINAL_AGENT_ADDRESS: ${{ vars.TERMINAL_AGENT_ADDRESS }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GITHUB_ISSUE_TITLE: ${{ github.event.issue.title || inputs.issue_title }}
+          GITHUB_ISSUE_BODY: ${{ github.event.issue.body || inputs.issue_body }}
+          GITHUB_ISSUE_URL: ${{ github.event.issue.html_url || format('{0}/{1}/issues/{2}', github.server_url, github.repository, github.event.issue.number || inputs.issue_number) }}
+          GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+        run: python main.py
