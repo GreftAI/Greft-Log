@@ -26,11 +26,29 @@ Prerequisites — see README.md in this directory. In short:
     pip install -r requirements.txt
     export GREFT_API_URL=...          # optional, defaults to the hosted relay
     export GREFT_API_KEY=grf_sk_...   # a project API key from the Greft dashboard
+    export GREFT_BOT_CONFIG=...       # the sender identity's config.json contents (see below)
     export TERMINAL_AGENT_ADDRESS=@triage
     export OPENROUTER_API_KEY=sk-or-...
     export GITHUB_ISSUE_TITLE=...
     export GITHUB_ISSUE_BODY=...
     export GITHUB_ISSUE_URL=...
+
+Sender identity: a project API key alone can open a session for any address
+in its project, but only once the client already knows that address's real
+agt_... ID — it cannot look one up from a bare @address by itself. Rather
+than register a brand-new sender address on every run (which spends the
+project's address quota), this script authenticates as one fixed, already-
+registered address ("@issue-bot" by default). GREFT_BOT_CONFIG holds that
+address's small, non-secret local config (just its agent_id and address —
+no private key, since it authenticates purely via the project API key):
+
+    {"agent_id": "agt_...", "address": "@issue-bot", ...}
+
+Create it once with:
+    python -c "from sdk.python.client import GreftClient; \
+      import json; c = GreftClient(api_key='grf_sk_...'); \
+      print(json.dumps(c.init('@issue-bot')))"
+then save the resulting local config.json's contents as GREFT_BOT_CONFIG.
 
 Usage:
     python main.py
@@ -42,7 +60,6 @@ import json
 import os
 import sys
 import tempfile
-import uuid
 from pathlib import Path
 from typing import Any
 
@@ -54,6 +71,7 @@ GREFT_API_URL = (
     or "https://greft-relay-783768789695.us-central1.run.app"
 )
 GREFT_API_KEY = os.environ.get("GREFT_API_KEY", "")
+GREFT_BOT_CONFIG = os.environ.get("GREFT_BOT_CONFIG", "")
 TERMINAL_AGENT_ADDRESS = os.environ.get("TERMINAL_AGENT_ADDRESS", "")
 
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
@@ -134,6 +152,13 @@ def run(
             "dashboard and export it. See README.md in this directory."
         )
         raise RuntimeError(msg)
+    if not GREFT_BOT_CONFIG:
+        msg = (
+            "GREFT_BOT_CONFIG is not set. This should hold the sender identity's "
+            "config.json contents (agent_id + address). See the module docstring "
+            "and README.md in this directory for how to create it once."
+        )
+        raise RuntimeError(msg)
     if not TERMINAL_AGENT_ADDRESS:
         msg = "TERMINAL_AGENT_ADDRESS is not set (e.g. @triage). See README.md."
         raise RuntimeError(msg)
@@ -142,17 +167,21 @@ def run(
 
     with tempfile.TemporaryDirectory(prefix="greft-issue-bot-") as tmp:
         home = Path(tmp)
-        suffix = uuid.uuid4().hex[:6]
-        bot_address = f"@issue-bot-{suffix}"
+        # Seed the sender identity's config (agent_id + address only, no
+        # private key needed) rather than calling client.init(), which would
+        # register a brand-new address — and spend the project's address
+        # quota — on every single run.
+        (home / "config.json").write_text(GREFT_BOT_CONFIG)
 
         with GreftClient(
             api_url=GREFT_API_URL, home=home, api_key=GREFT_API_KEY
         ) as client:
-            client.init(bot_address)
             client.connect()
+            bot_address = client.address or "(unknown sender)"
 
             print(
-                f"Sending issue #{issue_number} from {repository} to {TERMINAL_AGENT_ADDRESS}"
+                f"Sending issue #{issue_number} from {repository} "
+                f"({bot_address} -> {TERMINAL_AGENT_ADDRESS})"
             )
             print(f"  summary: {brief['summary']}")
 

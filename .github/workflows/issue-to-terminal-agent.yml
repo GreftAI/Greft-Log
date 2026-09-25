@@ -37,6 +37,7 @@ jobs:
         env:
           GREFT_API_URL: ${{ secrets.GREFT_API_URL }}
           GREFT_API_KEY: ${{ secrets.GREFT_API_KEY }}
+          GREFT_BOT_CONFIG: ${{ secrets.GREFT_BOT_CONFIG }}
           TERMINAL_AGENT_ADDRESS: ${{ vars.TERMINAL_AGENT_ADDRESS }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           GITHUB_ISSUE_TITLE: ${{ github.event.issue.title || inputs.issue_title }}
